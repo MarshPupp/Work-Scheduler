@@ -28,11 +28,11 @@ THEN the saved events persist
 ## Links ##
 Link to repository: https://github.com/MarshPupp/Work-Scheduler
 
-Link to deployed site: 
+Link to deployed site:https://marshpupp.github.io/Work-Scheduler/
 ## Deployed Images ##
 ![Deployed work schedule site 1](./assets/images/WDS1.png)
 ![Deployed work schedule site 2](./assets/images/WDS2.png)
 ## Acknowledgements ##
-* Source code was from the Develop folder of the coding-boot-camp/urban-octo-telegram repository. Linked here: (https://github.com/coding-boot-camp/crispy-octo-meme/tree/main)
+* Source code was from the Develop folder of the coding-boot-camp/crispy octo meme repository. Linked here: (https://github.com/coding-boot-camp/crispy-octo-meme)
 * MDN docs were referenced (https://developer.mozilla.org/en-US/)
 * Chat GPT for Read Me format and help
