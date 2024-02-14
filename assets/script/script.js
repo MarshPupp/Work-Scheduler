@@ -1,41 +1,50 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-var date = dayjs();
-$('#currentDay').text(date.format('dddd, MMMM D YYYY'))
+$(document).ready(function() {
+  // Display current day at the top of the calendar
+  var date = dayjs();
+  $('#currentDay').text(date.format('dddd, MMMM D YYYY,h:mm:ss a'))
 
-$(document).ready(function () { 
-    // TODO: Add a listener for click events on the save button. This code should
-    // use the id in the containing time-block as a key to save the user input in
-    var saveBtnE1 = $('#save-btn');
-    saveBtnE1.on('click',function(event) {
-      event.preventDefault();
+  // Color-code time blocks based on current time
+  colorCodeTimeBlocks();
+  // Load events from local storage
+  loadEvents();
 
-      const textareaId = $(this).data('textarea');
-      const $input = $('#' + textareaId);
-      const inputText = $input.val();
-      
-      if(localStorage.getItem(textareaId) === inputText) {
-      localStorage.removeItem(textareaId);
-      console.log('removed from local', inputText)
-      $input.val('');
-      alert('Removed saved event')
-      } else {
-      localStorage.setItem(textareaId, inputText);
-      console.log('saved to local')
-      alert('Saved event');
-      }
-    });
+  // Event listeners for save buttons
+  $('.saveBtn').on('click', function() {
+    const hour = $(this).parent().attr('id').split('-')[1];
+    const eventText = $(this).siblings('.description').val();
+    saveEvent(hour, eventText);
+  });
+});
 
-    $('.textInput').each(function() {
-      const $input = $(this);
-      const textareaId = $input.attr('id');
-      const savedText = localStorage.getItem(textareaId);
-      console.log('retrieved saved text', textareaId, ':', savedText)
-      if (savedText) {
-        $input.val(savedText);
-      }
-    });
+function colorCodeTimeBlocks() {
+  const currentHour = new Date().getHours();
+  $('.time-block').each(function() {
+    const blockHour = parseInt($(this).attr('id').split('-')[1]);
+    if (blockHour < currentHour) {
+      $(this).addClass('past');
+    } else if (blockHour === currentHour) {
+      $(this).addClass('present');
+    } else {
+      $(this).addClass('future');
+    }
+  });
+}
+
+function saveEvent(hour, eventText) {
+  localStorage.clear();
+  localStorage.setItem(`event-${hour}`, eventText);
+}
+
+function loadEvents() {
+  $('.time-block').each(function() {
+    const hour = $(this).attr('id').split('-')[1];
+    const eventText = localStorage.getItem(`event-${hour}`);
+    if (eventText) {
+      $(this).find('.description').val(eventText);
+    }
+  });
+}
+
     // local storage. HINT: What does `this` reference in the click listener
     // function? How can DOM traversal be used to get the "hour-x" id of the
     // time-block containing the button that was clicked? How might the id be
@@ -52,4 +61,4 @@ $(document).ready(function () {
     // attribute of each time-block be used to do this?
     //
     // TODO: Add code to display the current date in the header of the page.
-  });
+
